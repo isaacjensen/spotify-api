@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  api:
+    build: .
+    image: businesses-api
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      MYSQL_DATABASE: cs493_db
+      MYSQL_USER: guest
+      MYSQL_PASSWORD: guest
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    volumes:
+      - cs493-mysql-data:/var/lib/mysql
+      - ./db-init/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: cs493_db
+      MYSQL_USER: guest
+      MYSQL_PASSWORD: guest
+
+volumes:
+  cs493-mysql-data:
